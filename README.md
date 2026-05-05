@@ -1,26 +1,36 @@
-# Individual Donor System Design Hub
+# Austin Coming Together Individual Donor System Design Hub
 
-This is the simple version of the webpage.
+This is the GitHub-ready simple version of the webpage.
 
-## What is included
+## Files
 
-- `index.html`
+- `index.html` — the full webpage
+- `.nojekyll` — helps GitHub Pages serve the site without Jekyll processing
+- `README.md` — basic instructions
 
-That is the entire website. There is no React, no Vite, no Tailwind, no build process, and no package install.
+## How to use with GitHub
 
-## How to preview it
+1. Create a new GitHub repository.
+2. Upload `index.html`, `.nojekyll`, and `README.md` directly into the root of the repository.
+3. Do not upload the ZIP file itself.
+4. Go to **Settings** → **Pages**.
+5. Under **Build and deployment**, choose:
+   - Source: **Deploy from a branch**
+   - Branch: **main**
+   - Folder: **/root**
+6. Save.
 
-Double-click `index.html` and it should open in your browser.
+Your GitHub Pages site will usually appear at:
 
-## How to publish on Netlify
+```text
+https://YOUR-USERNAME.github.io/YOUR-REPOSITORY-NAME/
+```
 
-1. Go to Netlify.
-2. Choose **Add new site**.
-3. Choose **Deploy manually**.
-4. Drag and drop the `index.html` file, or drag and drop the whole unzipped folder.
-5. Netlify will create a live link.
+## How to use with Netlify
 
-## How to edit the field database
+You can also drag `index.html` directly into Netlify using manual deploy.
+
+## How to edit
 
 Open `index.html` in a code editor.
 
@@ -30,4 +40,4 @@ Search for:
 const fieldData = [
 ```
 
-Edit the field records inside that section.
+That section contains the searchable field database.

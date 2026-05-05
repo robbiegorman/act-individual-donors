@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Austin Coming Together | Individual Donor System Design Hub</title>
+  <style>
+    :root {
+      --bg: #f7f7f5;
+      --card: #ffffff;
+      --ink: #111111;
+      --muted: #5f5f5f;
+      --line: #deded8;
+      --soft: #efefea;
+      --accent: #111111;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      background: var(--card);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 24px 0 8px;
+      font-size: 14px;
+    }
+
+    .top-nav a {
+      text-decoration: none;
+      border: 1px solid var(--line);
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      background: #fff;
+    }
+
+    .top-nav a:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 48px;
+      padding: 56px 0 64px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: white;
+      border-radius: 999px;
+      padding: 6px 11px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(40px, 6vw, 72px);
+      line-height: .95;
+      letter-spacing: -0.055em;
+      margin: 22px 0 22px;
+      max-width: 900px;
+    }
+
+    .hero p {
+      font-size: 19px;
+      color: var(--muted);
+      max-width: 820px;
+      margin: 0;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border-radius: 999px;
+      border: 1px solid var(--ink);
+      padding: 11px 18px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn.primary {
+      background: var(--ink);
+      color: white;
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .metric-card, .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.035);
+    }
+
+    .metric-number {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .metric-label {
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .metric-note {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    section {
+      padding: 64px 0;
+    }
+
+    .section-white {
+      background: var(--card);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-heading {
+      max-width: 880px;
+      margin-bottom: 30px;
+    }
+
+    .section-heading .label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-weight: 800;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin: 0;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin: 16px 0 0;
+      font-size: 17px;
+      max-width: 850px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .card ul {
+      padding-left: 18px;
+      margin: 12px 0 0;
+    }
+
+    .quote-card {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 26px;
+      font-size: 23px;
+      font-weight: 750;
+      letter-spacing: -0.025em;
+      line-height: 1.25;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .flow-step {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+      position: relative;
+    }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .table-tools {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 16px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.04);
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr 180px 160px 180px auto;
+      gap: 10px;
+    }
+
+    input, select, button {
+      font: inherit;
+    }
+
+    input, select {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0 12px;
+      background: white;
+      color: var(--ink);
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--ink);
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 12px;
+      padding: 0 14px;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    button:hover {
+      border-color: var(--ink);
+    }
+
+    .result-count {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.035);
+    }
+
+    table {
+      width: 100%;
+      min-width: 1100px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th {
+      background: var(--soft);
+      color: #444;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 11px;
+      text-align: left;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    td {
+      vertical-align: top;
+      padding: 16px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    tbody tr:hover {
+      background: #fafafa;
+    }
+
+    .field-name {
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #fff;
+      white-space: nowrap;
+    }
+
+    .tag.dark {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: white;
+    }
+
+    .tag.soft {
+      background: var(--soft);
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .mapping-list {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .mapping-row {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 16px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .mapping-row:last-child {
+      border-bottom: none;
+    }
+
+    .mapping-row strong {
+      color: var(--ink);
+    }
+
+    .mapping-row span {
+      color: var(--muted);
+    }
+
+    .phase-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.035);
+    }
+
+    .phase-card h3 {
+      margin: 16px 0 8px;
+      font-size: 21px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    footer {
+      padding: 28px 0;
+      background: white;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .grid-4,
+      .grid-3,
+      .grid-2,
+      .flow,
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      section {
+        padding: 48px 0;
+      }
+
+      .table-tools {
+        position: static;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="top-nav">
+        <a href="#purpose">Purpose</a>
+        <a href="#current-state">Current State</a>
+        <a href="#field-database">Field Database</a>
+        <a href="#quickbooks-mapping">QuickBooks Mapping</a>
+        <a href="#reporting">Reporting</a>
+        <a href="#open-questions">Open Questions</a>
+      </nav>
+
+      <div class="hero">
+        <div>
+          <span class="eyebrow">Austin Coming Together · Internal planning resource</span>
+          <h1>Individual Donor System Design Hub</h1>
+          <p>
+            A working resource to help Austin Coming Together design an individual donor system that reflects ACT’s relationship-centered work, community partnerships, neighborhood-based initiatives, and need for clean fundraising and finance data.
+          </p>
+          <div class="button-row">
+            <a class="btn primary" href="#field-database">View Field Database</a>
+            <a class="btn secondary" href="#quickbooks-mapping">Review QuickBooks Mapping</a>
+          </div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric-card">
+            <div class="metric-number" id="field-count">—</div>
+            <div class="metric-label">Recommended fields</div>
+            <div class="metric-note">Tailored to ACT’s donor relationships, initiatives, stewardship, and accounting needs.</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-number" id="phase-one-count">—</div>
+            <div class="metric-label">Phase 1 fields</div>
+            <div class="metric-note">Suggested starting point for Salesforce build, migration, and QuickBooks alignment.</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-number" id="qb-count">—</div>
+            <div class="metric-label">QB-related fields</div>
+            <div class="metric-note">Fields with a strong or partial QuickBooks accounting parallel.</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-number">4</div>
+            <div class="metric-label">Core systems</div>
+            <div class="metric-note">Salesforce, QuickBooks, donation platform, and Mailchimp or email marketing tool.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="purpose">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Purpose</div>
+        <h2>Why this matters for Austin Coming Together</h2>
+        <p>
+          ACT’s individual donor system should do more than track gifts. It should help the organization understand who is connected to the work, what parts of the Austin community and ACT’s mission they care about, how they first became engaged, and what kind of relationship-building or stewardship should happen next.
+        </p>
+      </div>
+
+      <div class="grid-4">
+        <div class="card">
+          <h3>Honor ACT’s relationships</h3>
+          <p>Track the people, partners, residents, neighbors, volunteers, board members, and supporters connected to ACT’s work.</p>
+        </div>
+        <div class="card">
+          <h3>Support strategic fundraising</h3>
+          <p>Move from disconnected donor records toward a clear system for cultivation, stewardship, and individual giving growth.</p>
+        </div>
+        <div class="card">
+          <h3>Connect gifts to mission</h3>
+          <p>Understand which initiatives, campaigns, events, or community priorities are motivating donors to support ACT.</p>
+        </div>
+        <div class="card">
+          <h3>Strengthen finance alignment</h3>
+          <p>Keep Salesforce focused on donor relationships while ensuring gifts, restrictions, deposits, and revenue categories reconcile with QuickBooks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="current-state" class="section-white">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Current snapshot</div>
+        <h2>Where ACT appears to be in developing the system</h2>
+        <p>
+          This page is intended to help ACT and the data team translate individual donor strategy into a practical Salesforce design. It should be refined as current exports, spreadsheets, QuickBooks history, donation platform data, and email marketing lists are reviewed.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Current-state assumptions</h3>
+          <ul>
+            <li>ACT likely has donor and supporter information spread across multiple places: QuickBooks, spreadsheets, donation tools, email lists, events, and staff relationships.</li>
+            <li>QuickBooks may contain useful giving history, but it should not become ACT’s primary donor relationship system.</li>
+            <li>Salesforce should help ACT build a more intentional individual giving infrastructure, not simply recreate old spreadsheets.</li>
+            <li>ACT’s system should account for the reality that donors may also be community partners, residents, volunteers, board connections, event attendees, or initiative champions.</li>
+          </ul>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Salesforce owns the relationship</h3>
+            <p>Donor identity, ACT connection, cultivation strategy, stewardship, campaign history, interest areas, and next actions.</p>
+          </div>
+          <div class="card">
+            <h3>QuickBooks owns accounting truth</h3>
+            <p>Deposits, revenue classification, reconciliation, transaction records, fund restrictions, and financial reporting.</p>
+          </div>
+          <div class="card">
+            <h3>Email tools support communication</h3>
+            <p>Subscription status, email engagement, audience segments, campaign tags, and donor communications.</p>
+          </div>
+          <div class="card">
+            <h3>Donation platforms feed activity</h3>
+            <p>Online gifts, recurring donations, payment processor IDs, donor-entered details, and campaign forms.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="design-principles">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Design principles</div>
+        <h2>What each system should and should not do</h2>
+        <p>
+          ACT’s Salesforce system should help staff understand and grow relationships. QuickBooks should remain the financial source of truth. This keeps the donor system useful without turning accounting software into a second CRM.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="quote-card">
+          Salesforce should answer: “Who is connected to ACT, why do they care about the Austin community, and what should happen next in the relationship?”
+        </div>
+        <div class="quote-card">
+          QuickBooks should answer: “Was the money received, classified correctly, deposited correctly, and reconciled?”
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="data-flow" class="section-white">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Data flow</div>
+        <h2>Recommended system architecture for ACT</h2>
+        <p>
+          The system should allow online and offline gifts to move through a consistent path while preserving clear ownership of donor relationship data and accounting data.
+        </p>
+      </div>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-number">1</div>
+          <h3>Supporter activity</h3>
+          <p>Online gift, check, event attendance, board referral, volunteer interest, partner connection, or community engagement.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-number">2</div>
+          <h3>Salesforce record</h3>
+          <p>Donor identity, ACT connection, initiative interest, campaign, gift, relationship owner, and stewardship workflow.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-number">3</div>
+          <h3>QuickBooks reconciliation</h3>
+          <p>Transaction amount, revenue category, fund or restriction, deposit batch, and accounting record.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-number">4</div>
+          <h3>Relationship loop</h3>
+          <p>Thank-you, impact update, event invitation, volunteer opportunity, campaign follow-up, or next donor conversation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="field-database">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Searchable field database</div>
+        <h2>Recommended Salesforce fields for ACT’s individual donor system</h2>
+        <p>
+          Use this database as a working inventory for ACT’s Salesforce design. The data team can review, accept, revise, or defer each field based on Salesforce architecture, integration constraints, reporting needs, and the quality of existing donor data.
+        </p>
+      </div>
+
+      <div class="table-tools">
+        <div class="filters">
+          <input id="search" type="search" placeholder="Search fields, ACT connection, objects, descriptions, or mapping notes..." />
+          <select id="category-filter"></select>
+          <select id="priority-filter"></select>
+          <select id="qb-filter"></select>
+          <button id="reset">Reset</button>
+        </div>
+        <div class="result-count" id="result-count"></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Category</th>
+              <th>Salesforce Object</th>
+              <th>Field Type</th>
+              <th>Purpose for ACT</th>
+              <th>QuickBooks Parallel</th>
+              <th>Priority</th>
+              <th>Source of Truth</th>
+            </tr>
+          </thead>
+          <tbody id="field-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="quickbooks-mapping" class="section-white">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">QuickBooks mapping</div>
+        <h2>Fields that should and should not parallel QuickBooks</h2>
+        <p>
+          For ACT, QuickBooks should receive or preserve the information needed for accounting, reconciliation, deposits, restrictions, and financial reporting. Salesforce should hold the relationship intelligence that helps ACT steward donors and grow individual giving.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Strong QuickBooks parallels</h3>
+          <div class="mapping-list">
+            <div class="mapping-row"><strong>Donor Name</strong><span>Customer record</span></div>
+            <div class="mapping-row"><strong>Gift Amount</strong><span>Transaction amount</span></div>
+            <div class="mapping-row"><strong>Gift Date</strong><span>Transaction date</span></div>
+            <div class="mapping-row"><strong>Payment Method</strong><span>Payment method</span></div>
+            <div class="mapping-row"><strong>Fund / Restriction</strong><span>Class, account, or item</span></div>
+            <div class="mapping-row"><strong>Revenue Category</strong><span>Income account or product/service</span></div>
+            <div class="mapping-row"><strong>Receipt Number</strong><span>Sales receipt number</span></div>
+            <div class="mapping-row"><strong>Deposit Batch ID</strong><span>Deposit reference or memo</span></div>
+            <div class="mapping-row"><strong>QuickBooks Transaction ID</strong><span>QuickBooks transaction record</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Fields to keep in Salesforce</h3>
+          <div class="mapping-list">
+            <div class="mapping-row"><strong>ACT Connection Type</strong><span>Relationship context, not accounting</span></div>
+            <div class="mapping-row"><strong>Austin Community Connection</strong><span>Community knowledge, not reconciliation</span></div>
+            <div class="mapping-row"><strong>Initiative Interest</strong><span>Donor motivation and segmentation</span></div>
+            <div class="mapping-row"><strong>Cultivation Stage</strong><span>Fundraising strategy, not accounting</span></div>
+            <div class="mapping-row"><strong>Relationship Owner</strong><span>CRM ownership, not finance</span></div>
+            <div class="mapping-row"><strong>Next Best Action</strong><span>Stewardship planning, not accounting</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="phases">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Implementation phases</div>
+        <h2>Phase 1 versus future build</h2>
+        <p>
+          ACT does not need to build everything at once. Phase 1 should focus on clean donor records, gift history, stewardship, and QuickBooks alignment. Future phases can add deeper cultivation strategy and donor insight.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="phase-card">
+          <span class="tag dark">Phase 1</span>
+          <h3>Build the foundation</h3>
+          <p>Identity, gift tracking, ACT connection, basic stewardship, and QuickBooks reconciliation.</p>
+          <div class="pill-row">
+            <span class="tag soft">Donor ID</span>
+            <span class="tag soft">ACT Connection Type</span>
+            <span class="tag soft">Gift Amount</span>
+            <span class="tag soft">Gift Date</span>
+            <span class="tag soft">Fund / Restriction</span>
+            <span class="tag soft">Acknowledgment Date</span>
+            <span class="tag soft">QuickBooks IDs</span>
+          </div>
+        </div>
+        <div class="phase-card">
+          <span class="tag dark">Phase 2</span>
+          <h3>Develop donor strategy</h3>
+          <p>Relationship ownership, cultivation, initiative interest, partner connections, and proactive follow-up.</p>
+          <div class="pill-row">
+            <span class="tag soft">Cultivation Stage</span>
+            <span class="tag soft">Next Best Action</span>
+            <span class="tag soft">Initiative Interest</span>
+            <span class="tag soft">Board / Staff Connector</span>
+            <span class="tag soft">Event Attendance</span>
+          </div>
+        </div>
+        <div class="phase-card">
+          <span class="tag dark">Phase 3</span>
+          <h3>Advance insight and segmentation</h3>
+          <p>Scoring, donor journeys, deeper segmentation, and more sophisticated individual giving strategy.</p>
+          <div class="pill-row">
+            <span class="tag soft">Data Confidence Score</span>
+            <span class="tag soft">Affinity Score</span>
+            <span class="tag soft">Planned Giving Interest</span>
+            <span class="tag soft">Engagement Scoring</span>
+            <span class="tag soft">Lifetime Value</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reporting" class="section-white">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Reporting use cases</div>
+        <h2>The fields should help ACT answer better questions</h2>
+        <p>
+          A field is only valuable if it supports a decision, process, workflow, or report. These reporting use cases can help ACT and the data team evaluate which fields are essential.
+        </p>
+      </div>
+
+      <div class="grid-4">
+        <div class="card">
+          <h3>Fundraising</h3>
+          <ul>
+            <li>New individual donors this year</li>
+            <li>Lapsed donors needing re-engagement</li>
+            <li>Recurring donor growth</li>
+            <li>Major donor prospects</li>
+            <li>Giving by campaign or appeal</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Finance</h3>
+          <ul>
+            <li>Gifts by fund or restriction</li>
+            <li>Deposits needing review</li>
+            <li>Missing QuickBooks IDs</li>
+            <li>Tax-deductible totals</li>
+            <li>Revenue category checks</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Community engagement</h3>
+          <ul>
+            <li>Donors by ACT connection type</li>
+            <li>Donors by Austin community connection</li>
+            <li>Event attendees who later gave</li>
+            <li>Volunteers who became donors</li>
+            <li>Partner-connected supporters</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Leadership</h3>
+          <ul>
+            <li>Individual giving pipeline</li>
+            <li>Donor retention</li>
+            <li>Revenue forecast</li>
+            <li>Stewardship activity</li>
+            <li>Support by initiative area</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="open-questions">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Open questions</div>
+        <h2>Discussion prompts for ACT and the data team</h2>
+        <p>
+          This webpage should serve as a working design document. These questions can guide the next conversation and help identify what needs to be decided before implementation.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card"><h3>Data migration</h3><p>What donor and supporter data from QuickBooks, spreadsheets, events, and email lists is reliable enough to migrate?</p></div>
+        <div class="card"><h3>ACT connection</h3><p>How should ACT categorize donors who are also residents, partners, volunteers, board connections, event attendees, or initiative supporters?</p></div>
+        <div class="card"><h3>Required fields</h3><p>Which fields should be required at gift entry versus optional as staff build deeper relationships over time?</p></div>
+        <div class="card"><h3>Households</h3><p>How should households, spouses, family giving, and shared recognition preferences be handled?</p></div>
+        <div class="card"><h3>Finance mapping</h3><p>Which fund, restriction, campaign, or initiative values need to match ACT’s finance reporting?</p></div>
+        <div class="card"><h3>System mismatches</h3><p>What should happen when Salesforce and QuickBooks records do not match?</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      Austin Coming Together · Individual Donor System Design Hub · Draft working resource for discussion with data, finance, development, and communications teams.
+    </div>
+  </footer>
+
+  <script>
+    const fieldData = [
+      {
+        field: "Donor ID / External ID",
+        category: "Identity",
+        object: "Contact / Account",
+        type: "Text / External ID",
+        description: "Stable identifier used to match ACT donor and supporter records across systems.",
+        quickbooks: "Yes",
+        quickbooksParallel: "Customer ID or customer record identifier",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Household Name",
+        category: "Identity",
+        object: "Account / Household",
+        type: "Text / Formula",
+        description: "Groups spouses, partners, and family members for household-level giving and recognition.",
+        quickbooks: "Partial",
+        quickbooksParallel: "Customer display name, but household logic is limited",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Preferred Name",
+        category: "Identity",
+        object: "Contact",
+        type: "Text",
+        description: "Name used in personal communications and stewardship outreach from ACT.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "ACT Connection Type",
+        category: "ACT Relationship",
+        object: "Contact",
+        type: "Picklist / Multi-select",
+        description: "Identifies how the person is connected to ACT: individual donor, resident, volunteer, board connection, partner staff, event attendee, community leader, or prospect.",
+        quickbooks: "No",
+        quickbooksParallel: "None; this is relationship context, not accounting data",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Austin Community Connection",
+        category: "ACT Relationship",
+        object: "Contact",
+        type: "Picklist / Text",
+        description: "Captures the donor’s relationship to the Austin community, such as resident, former resident, business owner, faith community, family connection, institutional partner, or ally.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Partner Organization Connection",
+        category: "ACT Relationship",
+        object: "Contact / Account",
+        type: "Lookup / Text",
+        description: "Links the supporter to a partner organization, employer, coalition member, or other institutional relationship relevant to ACT.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Recognition Name",
+        category: "Stewardship",
+        object: "Contact / Household",
+        type: "Text",
+        description: "How the donor wants to be listed publicly in ACT reports, event materials, donor recognition, or campaign updates.",
+        quickbooks: "Maybe",
+        quickbooksParallel: "Customer display name or memo, but Salesforce is preferred",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Anonymous Giving Preference",
+        category: "Stewardship",
+        object: "Contact / Gift",
+        type: "Checkbox / Picklist",
+        description: "Flags donors or specific gifts that should not be publicly recognized by ACT.",
+        quickbooks: "Maybe",
+        quickbooksParallel: "Custom field or memo if needed for reporting",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Donor Status",
+        category: "Strategy",
+        object: "Contact",
+        type: "Picklist",
+        description: "Classifies supporters as prospect, active donor, lapsed donor, recurring donor, major donor prospect, or inactive.",
+        quickbooks: "No",
+        quickbooksParallel: "None; fundraising strategy should remain in Salesforce",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Relationship Owner",
+        category: "Strategy",
+        object: "Contact / Account",
+        type: "Lookup / User",
+        description: "Names the ACT staff person responsible for managing the donor or supporter relationship.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Board / Staff Connector",
+        category: "Engagement",
+        object: "Contact",
+        type: "Lookup / Text",
+        description: "Tracks the ACT board member, staff member, or trusted connector with the strongest existing relationship to the donor.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Connection Source",
+        category: "Engagement",
+        object: "Contact",
+        type: "Picklist",
+        description: "Captures how the supporter first entered ACT’s network: event, board referral, campaign, volunteer opportunity, partner introduction, donation form, or community meeting.",
+        quickbooks: "No",
+        quickbooksParallel: "Could be memo/custom field, but not recommended",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Primary ACT Initiative Interest",
+        category: "Engagement",
+        object: "Contact",
+        type: "Picklist",
+        description: "The ACT initiative, strategy, or community priority most likely to motivate the donor.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Secondary Initiative Interests",
+        category: "Engagement",
+        object: "Contact",
+        type: "Multi-select Picklist",
+        description: "Additional ACT initiatives, campaigns, or issue areas the donor may care about.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Communication Preference",
+        category: "Communications",
+        object: "Contact",
+        type: "Picklist",
+        description: "Preferred channel for ACT outreach: email, phone, mail, text, personal meeting, or no contact.",
+        quickbooks: "Partial",
+        quickbooksParallel: "Email, phone, and mailing address fields",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce / Email Marketing"
+      },
+      {
+        field: "Email Subscription Status",
+        category: "Communications",
+        object: "Contact",
+        type: "Picklist / Synced Field",
+        description: "Tracks whether the supporter is subscribed, unsubscribed, cleaned, or pending in ACT’s email marketing tool.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 1",
+        sourceOfTruth: "Email Marketing"
+      },
+      {
+        field: "Do Not Solicit",
+        category: "Communications",
+        object: "Contact",
+        type: "Checkbox",
+        description: "Prevents fundraising asks while potentially still allowing stewardship, community updates, or required communications.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Cultivation Stage",
+        category: "Strategy",
+        object: "Contact / Opportunity",
+        type: "Picklist",
+        description: "Tracks where the donor is in ACT’s individual giving relationship: identify, qualify, cultivate, solicit, steward, or re-engage.",
+        quickbooks: "No",
+        quickbooksParallel: "None; do not sync cultivation strategy to accounting",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Giving Capacity Tier",
+        category: "Strategy",
+        object: "Contact",
+        type: "Picklist",
+        description: "Simple capacity range to support ACT’s donor portfolio management and ask strategy.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Next Best Action",
+        category: "Strategy",
+        object: "Contact / Task",
+        type: "Text / Task",
+        description: "The next recommended move with the donor: call, invite, thank, ask, introduce, send impact update, or connect to an ACT event.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Next Ask Amount",
+        category: "Strategy",
+        object: "Contact / Opportunity",
+        type: "Currency",
+        description: "Potential future solicitation amount for ACT’s individual giving planning.",
+        quickbooks: "No",
+        quickbooksParallel: "None until a real gift or pledge exists",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Last Meaningful Contact Date",
+        category: "Engagement",
+        object: "Contact",
+        type: "Date",
+        description: "Most recent substantive interaction between ACT and the donor or supporter.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Volunteer Interest",
+        category: "Engagement",
+        object: "Contact",
+        type: "Picklist / Checkbox",
+        description: "Indicates whether a donor is also interested in volunteering, attending community activities, or supporting ACT beyond financial giving.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Event Attendance History",
+        category: "Engagement",
+        object: "Campaign Member / Contact",
+        type: "Related Records",
+        description: "Tracks ACT events, community meetings, fundraisers, tours, or engagement opportunities attended by the supporter.",
+        quickbooks: "No",
+        quickbooksParallel: "Only financial event transactions should sync",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Planned Giving Interest",
+        category: "Strategy",
+        object: "Contact",
+        type: "Picklist / Checkbox",
+        description: "Flags donors who have expressed interest in estate, legacy, or planned giving to ACT.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 3",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Gift Amount",
+        category: "Gift / Transaction",
+        object: "Opportunity / Gift Transaction",
+        type: "Currency",
+        description: "Amount of a gift, pledge, or payment to ACT.",
+        quickbooks: "Yes",
+        quickbooksParallel: "Transaction amount",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce / Donation Platform"
+      },
+      {
+        field: "Gift Date",
+        category: "Gift / Transaction",
+        object: "Opportunity / Gift Transaction / Payment",
+        type: "Date",
+        description: "Date the gift was received, committed, or transacted, depending on ACT’s gift entry rules.",
+        quickbooks: "Yes",
+        quickbooksParallel: "Transaction date",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce / Donation Platform"
+      },
+      {
+        field: "Gift Type",
+        category: "Gift / Transaction",
+        object: "Opportunity / Gift",
+        type: "Picklist",
+        description: "Classifies gift as one-time, recurring, pledge, event, sponsorship, in-kind, DAF, stock, or campaign contribution.",
+        quickbooks: "Maybe",
+        quickbooksParallel: "Product/service item, income account, or memo",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Payment Method",
+        category: "Gift / Transaction",
+        object: "Payment / Gift Transaction",
+        type: "Picklist",
+        description: "Tracks check, ACH, credit card, cash, stock, DAF, or other payment types.",
+        quickbooks: "Yes",
+        quickbooksParallel: "Payment method",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce / Donation Platform"
+      },
+      {
+        field: "Transaction Reference Number",
+        category: "Gift / Transaction",
+        object: "Payment / Gift Transaction",
+        type: "Text",
+        description: "Check number, payment processor ID, or other transaction reference used for ACT’s reconciliation process.",
+        quickbooks: "Yes",
+        quickbooksParallel: "Check number, reference number, memo, or transaction ID",
+        priority: "Phase 1",
+        sourceOfTruth: "Donation Platform / QuickBooks"
+      },
+      {
+        field: "Campaign / Appeal",
+        category: "Fundraising",
+        object: "Campaign / Gift",
+        type: "Lookup",
+        description: "Connects a gift or supporter to the ACT campaign, event, mailing, appeal, or initiative that influenced giving.",
+        quickbooks: "Maybe",
+        quickbooksParallel: "Class, memo, custom field, or not synced",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Fund / Restriction / Designation",
+        category: "Accounting",
+        object: "Gift Allocation / Designation",
+        type: "Lookup / Picklist",
+        description: "Identifies the restricted purpose, program, campaign, or fund for the gift to ACT.",
+        quickbooks: "Yes",
+        quickbooksParallel: "Class, sub-account, product/service item, or fund tracking structure",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce / Finance-approved Mapping"
+      },
+      {
+        field: "Revenue Category",
+        category: "Accounting",
+        object: "Gift / Opportunity",
+        type: "Picklist",
+        description: "Accounting category such as individual contribution, event ticket, sponsorship, grant, or in-kind.",
+        quickbooks: "Yes",
+        quickbooksParallel: "Income account or product/service item",
+        priority: "Phase 1",
+        sourceOfTruth: "Finance-approved Mapping"
+      },
+      {
+        field: "Tax-Deductible Amount",
+        category: "Accounting",
+        object: "Gift / Payment",
+        type: "Currency",
+        description: "Portion of the gift eligible for charitable acknowledgment after benefits or fair market value are considered.",
+        quickbooks: "Maybe",
+        quickbooksParallel: "Receipt detail, memo, or custom field if needed",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce / Finance"
+      },
+      {
+        field: "Fair Market Value of Benefits",
+        category: "Accounting",
+        object: "Gift / Payment",
+        type: "Currency",
+        description: "Value of goods or services received by the donor, such as event meals, tickets, or sponsorship benefits.",
+        quickbooks: "Maybe",
+        quickbooksParallel: "Receipt detail, memo, or custom field if needed",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce / Finance"
+      },
+      {
+        field: "Acknowledgment Required",
+        category: "Stewardship",
+        object: "Gift / Payment",
+        type: "Checkbox",
+        description: "Indicates that a gift requires an ACT thank-you, receipt, personal note, call, or stewardship action.",
+        quickbooks: "No",
+        quickbooksParallel: "Could be custom field, but stewardship should remain in Salesforce",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Acknowledgment Date",
+        category: "Stewardship",
+        object: "Gift / Payment",
+        type: "Date",
+        description: "Date ACT thanked or receipted the donor.",
+        quickbooks: "No",
+        quickbooksParallel: "Could be custom field, but not recommended as accounting data",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Acknowledgment Method",
+        category: "Stewardship",
+        object: "Gift / Payment",
+        type: "Picklist",
+        description: "Tracks whether donor was thanked by email, letter, phone call, personal note, meeting, or public recognition.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 2",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Receipt Number",
+        category: "Accounting",
+        object: "Gift / Payment",
+        type: "Auto-number / Text",
+        description: "Receipt or acknowledgment identifier that can be referenced by ACT finance, development, and the donor.",
+        quickbooks: "Yes",
+        quickbooksParallel: "Sales receipt number or transaction number",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce / QuickBooks"
+      },
+      {
+        field: "Deposit Batch ID",
+        category: "Accounting",
+        object: "Payment / Gift Batch",
+        type: "Text",
+        description: "Groups transactions that were deposited together to support ACT’s reconciliation process.",
+        quickbooks: "Yes",
+        quickbooksParallel: "Deposit reference, batch, memo, or bank deposit grouping",
+        priority: "Phase 1",
+        sourceOfTruth: "QuickBooks / Finance"
+      },
+      {
+        field: "QuickBooks Customer ID",
+        category: "Integration",
+        object: "Contact / Account",
+        type: "Text / External ID",
+        description: "Stores the linked QuickBooks customer record for ACT donor/account matching.",
+        quickbooks: "Yes",
+        quickbooksParallel: "Customer ID",
+        priority: "Phase 1",
+        sourceOfTruth: "QuickBooks"
+      },
+      {
+        field: "QuickBooks Transaction ID",
+        category: "Integration",
+        object: "Gift / Payment",
+        type: "Text / External ID",
+        description: "Stores the linked QuickBooks transaction after successful sync or manual reconciliation.",
+        quickbooks: "Yes",
+        quickbooksParallel: "Transaction ID",
+        priority: "Phase 1",
+        sourceOfTruth: "QuickBooks"
+      },
+      {
+        field: "QuickBooks Sync Status",
+        category: "Integration",
+        object: "Gift / Payment",
+        type: "Picklist",
+        description: "Tracks whether a gift record is not synced, synced, failed, pending review, or intentionally excluded.",
+        quickbooks: "N/A",
+        quickbooksParallel: "Integration status field in Salesforce",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Sync Error Notes",
+        category: "Integration",
+        object: "Gift / Payment",
+        type: "Long Text",
+        description: "Captures integration failures or manual review notes for ACT’s finance/data review process.",
+        quickbooks: "N/A",
+        quickbooksParallel: "Integration/admin field, not an accounting field",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Source System",
+        category: "Integration",
+        object: "Contact / Gift",
+        type: "Picklist",
+        description: "Identifies whether the record originated in Salesforce, QuickBooks, donation platform, email marketing, manual import, or spreadsheet migration.",
+        quickbooks: "Maybe",
+        quickbooksParallel: "Memo/custom field only if needed",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Duplicate Review Needed",
+        category: "Data Quality",
+        object: "Contact / Account",
+        type: "Checkbox",
+        description: "Flags records that may need human review before syncing, stewardship, or ACT donor outreach.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 1",
+        sourceOfTruth: "Salesforce"
+      },
+      {
+        field: "Data Confidence Score",
+        category: "Data Quality",
+        object: "Contact / Gift",
+        type: "Score / Picklist",
+        description: "Internal rating of how reliable or complete the ACT donor/supporter record is after migration or sync.",
+        quickbooks: "No",
+        quickbooksParallel: "None",
+        priority: "Phase 3",
+        sourceOfTruth: "Salesforce"
+      }
+    ];
+
+    const searchInput = document.getElementById("search");
+    const categoryFilter = document.getElementById("category-filter");
+    const priorityFilter = document.getElementById("priority-filter");
+    const qbFilter = document.getElementById("qb-filter");
+    const resetButton = document.getElementById("reset");
+    const tableBody = document.getElementById("field-table");
+    const resultCount = document.getElementById("result-count");
+
+    function uniqueValues(key) {
+      return ["All", ...Array.from(new Set(fieldData.map(item => item[key]))).sort()];
+    }
+
+    function fillSelect(select, values, prefix = "") {
+      select.innerHTML = values.map(value => {
+        const label = prefix && value !== "All" ? `${prefix}: ${value}` : value === "All" && prefix ? `${prefix}: All` : value;
+        return `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`;
+      }).join("");
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function renderTable() {
+      const query = searchInput.value.trim().toLowerCase();
+      const category = categoryFilter.value;
+      const priority = priorityFilter.value;
+      const qb = qbFilter.value;
+
+      const filtered = fieldData.filter(item => {
+        const matchesQuery = !query || Object.values(item).join(" ").toLowerCase().includes(query);
+        const matchesCategory = category === "All" || item.category === category;
+        const matchesPriority = priority === "All" || item.priority === priority;
+        const matchesQb = qb === "All" || item.quickbooks === qb;
+        return matchesQuery && matchesCategory && matchesPriority && matchesQb;
+      });
+
+      tableBody.innerHTML = filtered.map(item => {
+        const qbTone = item.quickbooks === "Yes" ? "dark" : item.quickbooks === "No" ? "" : "soft";
+        return `
+          <tr>
+            <td><div class="field-name">${escapeHtml(item.field)}</div></td>
+            <td><span class="tag">${escapeHtml(item.category)}</span></td>
+            <td>${escapeHtml(item.object)}</td>
+            <td>${escapeHtml(item.type)}</td>
+            <td>${escapeHtml(item.description)}</td>
+            <td>
+              <span class="tag ${qbTone}">${escapeHtml(item.quickbooks)}</span>
+              <div class="small">${escapeHtml(item.quickbooksParallel)}</div>
+            </td>
+            <td><span class="tag soft">${escapeHtml(item.priority)}</span></td>
+            <td>${escapeHtml(item.sourceOfTruth)}</td>
+          </tr>
+        `;
+      }).join("");
+
+      if (filtered.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="8">No fields match the current filters.</td></tr>`;
+      }
+
+      resultCount.innerHTML = `Showing <strong>${filtered.length}</strong> of ${fieldData.length} fields`;
+    }
+
+    function updateMetrics() {
+      document.getElementById("field-count").textContent = fieldData.length;
+      document.getElementById("phase-one-count").textContent = fieldData.filter(item => item.priority === "Phase 1").length;
+      document.getElementById("qb-count").textContent = fieldData.filter(item => item.quickbooks === "Yes" || item.quickbooks === "Partial").length;
+    }
+
+    fillSelect(categoryFilter, uniqueValues("category"), "Category");
+    fillSelect(priorityFilter, ["All", "Phase 1", "Phase 2", "Phase 3"], "Priority");
+    fillSelect(qbFilter, ["All", "Yes", "Partial", "Maybe", "No", "N/A"], "QB");
+
+    [searchInput, categoryFilter, priorityFilter, qbFilter].forEach(element => {
+      element.addEventListener("input", renderTable);
+      element.addEventListener("change", renderTable);
+    });
+
+    resetButton.addEventListener("click", () => {
+      searchInput.value = "";
+      categoryFilter.value = "All";
+      priorityFilter.value = "All";
+      qbFilter.value = "All";
+      renderTable();
+    });
+
+    updateMetrics();
+    renderTable();
+  </script>
+</body>
+</html>
