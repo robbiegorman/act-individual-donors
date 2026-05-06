@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Austin Coming Together | Salesforce Updates</title>
+  <style>
+    :root {
+      --bg: #f7f7f5;
+      --card: #ffffff;
+      --ink: #111111;
+      --muted: #5f5f5f;
+      --line: #deded8;
+      --soft: #efefea;
+      --soft2: #f2f2ee;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      background: var(--card);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 24px 0 8px;
+      font-size: 14px;
+    }
+
+    .top-nav a {
+      text-decoration: none;
+      border: 1px solid var(--line);
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      background: #fff;
+    }
+
+    .top-nav a:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .hero {
+      padding: 56px 0 64px;
+      max-width: 980px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: white;
+      border-radius: 999px;
+      padding: 6px 11px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(40px, 6vw, 72px);
+      line-height: .95;
+      letter-spacing: -0.055em;
+      margin: 22px 0 22px;
+      max-width: 980px;
+    }
+
+    .hero p {
+      font-size: 19px;
+      color: var(--muted);
+      max-width: 880px;
+      margin: 0;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border-radius: 999px;
+      border: 1px solid var(--ink);
+      padding: 11px 18px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn.primary {
+      background: var(--ink);
+      color: white;
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: var(--ink);
+    }
+
+    section {
+      padding: 64px 0;
+    }
+
+    .section-white {
+      background: var(--card);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-heading {
+      max-width: 900px;
+      margin-bottom: 30px;
+    }
+
+    .section-heading .label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-weight: 800;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin: 0;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin: 16px 0 0;
+      font-size: 17px;
+      max-width: 880px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.035);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .card ul {
+      padding-left: 18px;
+      margin: 12px 0 0;
+    }
+
+    .callout {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 26px;
+    }
+
+    .callout strong {
+      color: var(--ink);
+    }
+
+    .quote-card {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 26px;
+      font-size: 22px;
+      font-weight: 750;
+      letter-spacing: -0.025em;
+      line-height: 1.25;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .flow-step {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+      position: relative;
+    }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .table-tools {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 16px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.04);
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr 185px 160px 160px 160px 160px auto;
+      gap: 10px;
+    }
+
+    input, select, button {
+      font: inherit;
+    }
+
+    input, select {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0 12px;
+      background: white;
+      color: var(--ink);
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--ink);
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 12px;
+      padding: 0 14px;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    button:hover {
+      border-color: var(--ink);
+    }
+
+    .result-count {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.035);
+    }
+
+    table {
+      width: 100%;
+      min-width: 1380px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th {
+      background: var(--soft);
+      color: #444;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 11px;
+      text-align: left;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    td {
+      vertical-align: top;
+      padding: 16px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    tbody tr:hover {
+      background: #fafafa;
+    }
+
+    .field-name {
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #fff;
+      white-space: nowrap;
+    }
+
+    .tag.dark {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: white;
+    }
+
+    .tag.soft {
+      background: var(--soft);
+    }
+
+    .tag.yes {
+      background: var(--ink);
+      color: white;
+      border-color: var(--ink);
+    }
+
+    .tag.maybe {
+      background: var(--soft);
+    }
+
+    .tag.no {
+      background: white;
+      color: var(--muted);
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .mapping-list {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .mapping-row {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 16px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .mapping-row:last-child {
+      border-bottom: none;
+    }
+
+    .mapping-row strong {
+      color: var(--ink);
+    }
+
+    .mapping-row span {
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .source-link {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: white;
+      text-decoration: none;
+    }
+
+    .source-link:hover {
+      border-color: var(--ink);
+    }
+
+    .source-link span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer {
+      padding: 28px 0;
+      background: white;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 1100px) {
+      .filters {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .grid-4,
+      .grid-3,
+      .grid-2,
+      .flow {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 48px 0;
+      }
+
+      .table-tools {
+        position: static;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="top-nav">
+        <a href="#purpose">Purpose</a>
+        <a href="#system-snapshot">System Snapshot</a>
+        <a href="#individual-donors">Individual Donors</a>
+        <a href="#events">Events</a>
+        <a href="#field-database">Field Database</a>
+        <a href="#integrations">Integrations</a>
+        <a href="#open-questions">Open Questions</a>
+        <a href="#sources">Sources</a>
+      </nav>
+
+      <div class="hero">
+        <div>
+          <span class="eyebrow">Austin Coming Together · Marketing + Development Salesforce Updates</span>
+          <h1>Individual Donors + Events System Design Hub</h1>
+          <p>
+            A working resource to help Austin Coming Together think through how Salesforce could better support individual donor development, event management, finance coordination, marketing segmentation, and cross-functional system integration.
+          </p>
+          <div class="button-row">
+            <a class="btn primary" href="#field-database">View Field Database</a>
+            <a class="btn secondary" href="#sources">Download Source Materials</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="purpose">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Purpose</div>
+        <h2>A working page for alignment, not a final Salesforce build</h2>
+        <p>
+          This page is meant to help ACT communicate and organize early thinking around Salesforce updates for Individual Donors and Event Management. It is not intended to represent the current system or prescribe the final architecture. It is a practical starting point for shared discussion across Marketing + Development, Finance, Operations, and the data team.
+        </p>
+      </div>
+
+      <div class="grid-4">
+        <div class="card">
+          <h3>Build shared language</h3>
+          <p>Translate past conversations, slide decks, and field lists into one common resource for discussion.</p>
+        </div>
+        <div class="card">
+          <h3>Support donor development</h3>
+          <p>Create a clearer view of donor history, relationship context, cultivation strategy, and follow-up.</p>
+        </div>
+        <div class="card">
+          <h3>Connect event work</h3>
+          <p>Treat events as part of relationship management, not stand-alone activities disconnected from Salesforce.</p>
+        </div>
+        <div class="card">
+          <h3>Clarify integrations</h3>
+          <p>Call out where Salesforce may need to connect with QuickBooks, Give Lively or another platform, Mailchimp, Stripe, United Way records, and future finance systems.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="system-snapshot" class="section-white">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">System snapshot</div>
+        <h2>Current assumptions to pressure-test with the data team</h2>
+        <p>
+          The current working assumption is that Mailchimp is the primary marketing platform, events are still TBD but may lean toward Give Lively or another giving/event platform, and QuickBooks is currently used for finance. That may change in the next year or so as ACT moves toward stronger fund accounting.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="callout">
+          <strong>Important caveat:</strong> This page is speculative. It combines the uploaded field spreadsheet with the M+D Salesforce update document to show what the future system might need to account for. It does not mean these fields or integrations currently exist in Salesforce.
+        </div>
+        <div class="callout">
+          <strong>Design intention:</strong> Salesforce should become the relationship and coordination system. QuickBooks should remain the accounting source of truth while it is in use. Mailchimp should support marketing engagement. Give Lively or another platform may capture online gifts, registrations, recurring gifts, and event-related activity.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="individual-donors">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Individual donors</div>
+        <h2>What the donor system should help ACT do</h2>
+        <p>
+          ACT’s donor system should create one common location for donor information, reduce reliance on staff memory, build a shared history of donor engagement, and make relationship context visible over time.
+        </p>
+      </div>
+
+      <div class="grid-4">
+        <div class="card">
+          <h3>Common location</h3>
+          <p>Bring donor information into one shared system rather than spreading context across finance records, staff memory, spreadsheets, and emails.</p>
+        </div>
+        <div class="card">
+          <h3>Relationship history</h3>
+          <p>Capture meaningful interactions, notes, key context, ACT affiliation, and engagement beyond gifts.</p>
+        </div>
+        <div class="card">
+          <h3>Ownership + handoffs</h3>
+          <p>Clarify who is responsible for donor management and when handoffs should happen across staff or departments.</p>
+        </div>
+        <div class="card">
+          <h3>Common metrics</h3>
+          <p>Standardize important donor fields and measures so teams can work from a shared language.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="events" class="section-white">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Event management</div>
+        <h2>Why events need to be part of the Salesforce conversation</h2>
+        <p>
+          The M+D update makes clear that events are not just logistics. They are also donor engagement, audience segmentation, sponsorship, revenue tracking, marketing reach, day-of coordination, and follow-up.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>Audience + attendance</h3>
+          <ul>
+            <li>Audience segments</li>
+            <li>Invitees, registrants, and attendees</li>
+            <li>Follow-up lists</li>
+            <li>Prior event history</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Revenue + finance</h3>
+          <ul>
+            <li>Revenue goals</li>
+            <li>Sponsorship performance</li>
+            <li>Ticket sales</li>
+            <li>Expenses and budget-to-actuals</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Coordination + follow-up</h3>
+          <ul>
+            <li>Shared event status view</li>
+            <li>Day-of preferences and notes</li>
+            <li>Vendor documents such as W-9s</li>
+            <li>Post-event relationship-building</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="field-database">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Searchable field database</div>
+        <h2>Source field ideas for Salesforce design</h2>
+        <p>
+          This table is built from the uploaded Salesforce individual giving field ideas spreadsheet. It can be searched and filtered here, but the actual decision-making may be easier in a spreadsheet where fields can be edited, sorted, and prioritized collaboratively.
+        </p>
+      </div>
+
+      <div class="table-tools">
+        <div class="filters">
+          <input id="search" type="search" placeholder="Search fields, objects, systems, notes, or descriptions..." />
+          <select id="category-filter"></select>
+          <select id="priority-filter"></select>
+          <select id="qb-filter"></select>
+          <select id="gl-filter"></select>
+          <select id="mc-filter"></select>
+          <button id="reset">Reset</button>
+        </div>
+        <div class="result-count" id="result-count"></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Category</th>
+              <th>Salesforce Object</th>
+              <th>Purpose / Use</th>
+              <th>QB</th>
+              <th>Give Lively</th>
+              <th>Mailchimp</th>
+              <th>System of Record</th>
+              <th>Priority</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="field-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="integrations" class="section-white">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Integration design</div>
+        <h2>How the core systems should be understood</h2>
+        <p>
+          The purpose of calling out integrations is not to overbuild now. It is to make sure the Salesforce design does not ignore the data that may need to move between development, finance, events, and marketing.
+        </p>
+      </div>
+
+      <div class="grid-4" id="integration-cards"></div>
+    </div>
+  </section>
+
+  <section id="working-flow">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Working flow</div>
+        <h2>A simple way to think about the data movement</h2>
+        <p>
+          This is a conversation starter, not a technical integration specification.
+        </p>
+      </div>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-number">1</div>
+          <h3>Supporter activity</h3>
+          <p>Gift, registration, attendance, sponsorship, volunteer interest, board referral, or partner connection.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-number">2</div>
+          <h3>Salesforce relationship record</h3>
+          <p>Donor profile, ACT connection, campaign or event history, relationship owner, and follow-up.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-number">3</div>
+          <h3>Finance reconciliation</h3>
+          <p>Transaction amount, deposit, fee, fund, restriction, accounting code, and QuickBooks reference while applicable.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-number">4</div>
+          <h3>Engagement loop</h3>
+          <p>Thank-you, impact update, event follow-up, marketing segment, invitation, or next donor conversation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="open-questions" class="section-white">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Open questions</div>
+        <h2>Discussion prompts for ACT and the data team</h2>
+        <p>
+          These questions are intended to help ACT decide what should happen next without assuming the final Salesforce architecture.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card"><h3>Current data</h3><p>Which donor and event data sources should be reviewed first: QuickBooks exports, Give Lively or platform data, United Way records, Mailchimp, spreadsheets, or staff knowledge?</p></div>
+        <div class="card"><h3>Phase 1 scope</h3><p>Which fields are truly needed for a first build, and which should wait until staff process and reporting needs are clearer?</p></div>
+        <div class="card"><h3>System ownership</h3><p>Which system should own each data point, and what should only be referenced or synced when necessary?</p></div>
+        <div class="card"><h3>Events platform</h3><p>What does ACT need from an events platform before deciding whether Give Lively or another tool is the right fit?</p></div>
+        <div class="card"><h3>Finance transition</h3><p>How should the design account for QuickBooks now while leaving room for future fund accounting changes?</p></div>
+        <div class="card"><h3>Shared process</h3><p>How should Resource Development, Finance, Operations, and Marketing + Development work together when donor or event records cross departments?</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <div class="container">
+      <div class="section-heading">
+        <div class="label">Source materials</div>
+        <h2>Files included in this GitHub package</h2>
+        <p>
+          The webpage includes links to the source spreadsheet and document so the data team can review the underlying materials directly.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <a class="source-link" href="source-materials/salesforce-individual-giving-field-ideas.xlsx" download>
+          <strong>Salesforce individual giving field ideas</strong>
+          <span>Spreadsheet source for the searchable field database</span>
+        </a>
+        <a class="source-link" href="source-materials/salesforce-updates-individual-donors-events-2026-04-21.docx" download>
+          <strong>Salesforce Updates: Individual Donors + Events</strong>
+          <span>Document source for the framing and content revisions</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      Austin Coming Together · Marketing + Development Salesforce Updates · Draft working resource for discussion with data, finance, development, events, operations, and communications teams.
+    </div>
+  </footer>
+
+  <script>
+    const fieldData = [
+        {
+                "category": "Donor Identity",
+                "object": "Contact / Household",
+                "field": "Salesforce Contact ID",
+                "description": "Primary unique Salesforce record ID for each individual donor.",
+                "quickbooks": "No",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Used internally for matching and reporting; may map to external systems during integrations."
+        },
+        {
+                "category": "Donor Identity",
+                "object": "Contact / Household",
+                "field": "QuickBooks Customer ID",
+                "description": "Connects the donor record to the QuickBooks customer/donor record.",
+                "quickbooks": "Yes",
+                "giveLively": "No",
+                "mailchimp": "No",
+                "sourceOfTruth": "QuickBooks",
+                "priority": "Core",
+                "notes": "Important for finance reconciliation if donor-level giving is tracked in QuickBooks."
+        },
+        {
+                "category": "Donor Identity",
+                "object": "Contact",
+                "field": "Give Lively Donor ID",
+                "description": "Connects the donor record to the online giving platform donor record.",
+                "quickbooks": "No",
+                "giveLively": "Yes",
+                "mailchimp": "No",
+                "sourceOfTruth": "Give Lively / Giving Platform",
+                "priority": "Core",
+                "notes": "Useful if Give Lively is adopted; should be treated as a platform-specific external ID."
+        },
+        {
+                "category": "Donor Identity",
+                "object": "Contact",
+                "field": "Mailchimp Subscriber ID",
+                "description": "Connects donor record to marketing subscriber profile.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "Yes",
+                "sourceOfTruth": "Mailchimp",
+                "priority": "Phase 2",
+                "notes": "Useful for marketing data sync, segmentation, and engagement history."
+        },
+        {
+                "category": "Donor Identity",
+                "object": "Household / Account",
+                "field": "Household Name",
+                "description": "Connects related donors and family-level giving.",
+                "quickbooks": "Maybe",
+                "giveLively": "No",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "QuickBooks may not fully support household logic; Salesforce should lead household design."
+        },
+        {
+                "category": "Donor Identity",
+                "object": "Contact",
+                "field": "Primary Email",
+                "description": "Core identifier for communication and matching.",
+                "quickbooks": "Maybe",
+                "giveLively": "Maybe",
+                "mailchimp": "Yes",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Should be kept clean because it may be the strongest cross-system match field."
+        },
+        {
+                "category": "Donor Identity",
+                "object": "Contact",
+                "field": "Primary Phone",
+                "description": "Supports personal outreach and donor stewardship.",
+                "quickbooks": "Maybe",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Useful in Salesforce; sync only if needed."
+        },
+        {
+                "category": "Donor Identity",
+                "object": "Contact / Account",
+                "field": "Mailing Address",
+                "description": "Supports mailings, gift acknowledgments, and household-level segmentation.",
+                "quickbooks": "Maybe",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Address rules should be set before migration to avoid duplicate records."
+        },
+        {
+                "category": "Preferences",
+                "object": "Contact",
+                "field": "Email Opt-In Status",
+                "description": "Tracks whether the donor can receive marketing emails.",
+                "quickbooks": "No",
+                "giveLively": "Maybe",
+                "mailchimp": "Yes",
+                "sourceOfTruth": "Mailchimp / Salesforce",
+                "priority": "Core",
+                "notes": "Needs alignment with Mailchimp unsubscribe and consent logic."
+        },
+        {
+                "category": "Preferences",
+                "object": "Contact",
+                "field": "Do Not Contact / Do Not Solicit",
+                "description": "Prevents inappropriate outreach or fundraising asks.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Critical stewardship and compliance flag."
+        },
+        {
+                "category": "Preferences",
+                "object": "Contact",
+                "field": "Communication Preference",
+                "description": "Captures preferred channel: email, phone, mail, text, personal meeting.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Useful for relationship management; not generally an accounting field."
+        },
+        {
+                "category": "Preferences",
+                "object": "Contact / Gift",
+                "field": "Anonymous Giving Preference",
+                "description": "Identifies whether donor wants public recognition withheld.",
+                "quickbooks": "Maybe",
+                "giveLively": "Maybe",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Can be donor-level or gift-specific depending on process."
+        },
+        {
+                "category": "Preferences",
+                "object": "Contact / Household",
+                "field": "Recognition Name",
+                "description": "Captures how donor should be listed publicly.",
+                "quickbooks": "Maybe",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Important for annual reports, event programs, and campaign recognition."
+        },
+        {
+                "category": "Relationship Management",
+                "object": "Contact",
+                "field": "Donor Type",
+                "description": "Segments donors such as individual, board member, volunteer, event attendee, staff connection, former client, etc.",
+                "quickbooks": "Maybe",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "May inform marketing tags but should be owned in Salesforce."
+        },
+        {
+                "category": "Relationship Management",
+                "object": "Contact",
+                "field": "Donor Status",
+                "description": "Identifies prospect, active donor, recurring donor, lapsed donor, major donor prospect, etc.",
+                "quickbooks": "No",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Core development field; should not be owned by finance."
+        },
+        {
+                "category": "Relationship Management",
+                "object": "Contact",
+                "field": "Relationship Owner",
+                "description": "Assigns internal staff owner for donor follow-up.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Supports internal accountability and coordination."
+        },
+        {
+                "category": "Relationship Management",
+                "object": "Contact",
+                "field": "Board / Staff Connector",
+                "description": "Identifies the person with strongest relationship to donor.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Useful for warm introductions and cultivation planning."
+        },
+        {
+                "category": "Relationship Management",
+                "object": "Contact",
+                "field": "Cultivation Stage",
+                "description": "Tracks whether donor is being identified, qualified, cultivated, solicited, stewarded, or re-engaged.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "One of the most valuable fields for creating a real development process."
+        },
+        {
+                "category": "Relationship Management",
+                "object": "Contact",
+                "field": "Primary Interest Area",
+                "description": "Tracks donor passion area or program interest.",
+                "quickbooks": "No",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Can eventually map to Mailchimp segments or tags."
+        },
+        {
+                "category": "Relationship Management",
+                "object": "Contact",
+                "field": "Secondary Interest Areas",
+                "description": "Allows multiple program interests or affinity areas.",
+                "quickbooks": "No",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Phase 2",
+                "notes": "Avoid overcomplicating until core interest categories are agreed upon."
+        },
+        {
+                "category": "Relationship Management",
+                "object": "Contact",
+                "field": "Giving Capacity Tier",
+                "description": "Helps prioritize donors by likely giving potential.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Phase 2",
+                "notes": "Sensitive field; should be used carefully and with clear governance."
+        },
+        {
+                "category": "Relationship Management",
+                "object": "Contact / Task",
+                "field": "Last Meaningful Contact Date",
+                "description": "Tracks the last substantial touchpoint with the donor.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Can be driven by activity history instead of manual entry."
+        },
+        {
+                "category": "Relationship Management",
+                "object": "Contact / Task",
+                "field": "Next Follow-Up Date",
+                "description": "Keeps donor follow-up from falling through the cracks.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Best paired with tasks, reminders, or activity ownership."
+        },
+        {
+                "category": "Relationship Management",
+                "object": "Contact / Task",
+                "field": "Next Best Action",
+                "description": "Identifies the next donor move: thank you call, meeting, invite, ask, introduction, etc.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Supports proactive cultivation rather than passive recordkeeping."
+        },
+        {
+                "category": "Relationship Management",
+                "object": "Contact",
+                "field": "Notes for Personalization",
+                "description": "Captures personal context that helps build a genuine relationship.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Phase 2",
+                "notes": "Should have clear norms to avoid clutter or inappropriate notes."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Opportunity / Payment",
+                "field": "Salesforce Gift ID",
+                "description": "Primary Salesforce ID for each donation or gift transaction.",
+                "quickbooks": "No",
+                "giveLively": "Maybe",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Use for internal matching and troubleshooting."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Opportunity / Payment",
+                "field": "QuickBooks Transaction ID",
+                "description": "Connects gift record to accounting transaction.",
+                "quickbooks": "Yes",
+                "giveLively": "No",
+                "mailchimp": "No",
+                "sourceOfTruth": "QuickBooks",
+                "priority": "Core",
+                "notes": "Important if Salesforce and QuickBooks are integrated or reconciled manually."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Opportunity / Payment",
+                "field": "Give Lively Transaction ID",
+                "description": "Connects gift record to online donation transaction.",
+                "quickbooks": "No",
+                "giveLively": "Yes",
+                "mailchimp": "No",
+                "sourceOfTruth": "Give Lively / Giving Platform",
+                "priority": "Core",
+                "notes": "Important for online donation matching and donor service."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Opportunity / Payment",
+                "field": "Gift Amount",
+                "description": "Tracks gross donation amount.",
+                "quickbooks": "Yes",
+                "giveLively": "Yes",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce / Finance",
+                "priority": "Core",
+                "notes": "Should reconcile with giving platform and accounting records."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Opportunity / Payment",
+                "field": "Gift Date",
+                "description": "Records the date the gift was made or received.",
+                "quickbooks": "Yes",
+                "giveLively": "Yes",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce / Finance",
+                "priority": "Core",
+                "notes": "Define whether this means transaction date, received date, or deposit date."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Payment",
+                "field": "Payment Method",
+                "description": "Tracks check, credit card, ACH, cash, stock, DAF, etc.",
+                "quickbooks": "Yes",
+                "giveLively": "Yes",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce / Finance",
+                "priority": "Core",
+                "notes": "Important for reconciliation and donor service."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Payment",
+                "field": "Processing Fee",
+                "description": "Tracks giving platform or payment processor fee.",
+                "quickbooks": "Yes",
+                "giveLively": "Yes",
+                "mailchimp": "No",
+                "sourceOfTruth": "Finance / Giving Platform",
+                "priority": "Core",
+                "notes": "May support net deposit reconciliation."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Payment",
+                "field": "Net Deposit Amount",
+                "description": "Tracks amount expected to hit bank account after fees.",
+                "quickbooks": "Yes",
+                "giveLively": "Yes",
+                "mailchimp": "No",
+                "sourceOfTruth": "Finance / Giving Platform",
+                "priority": "Core",
+                "notes": "Important if gross and net donations differ."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Payment",
+                "field": "Deposit Date",
+                "description": "Tracks when funds were deposited into the bank.",
+                "quickbooks": "Yes",
+                "giveLively": "Maybe",
+                "mailchimp": "No",
+                "sourceOfTruth": "QuickBooks",
+                "priority": "Core",
+                "notes": "Helpful for reconciling Salesforce gifts to QuickBooks/bank deposits."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Payment",
+                "field": "Deposit Batch ID",
+                "description": "Groups transactions that were deposited together.",
+                "quickbooks": "Yes",
+                "giveLively": "Maybe",
+                "mailchimp": "No",
+                "sourceOfTruth": "Finance",
+                "priority": "Phase 2",
+                "notes": "Useful for reconciliation, especially with credit card batches."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Opportunity",
+                "field": "Campaign / Appeal",
+                "description": "Connects gift to appeal, event, campaign, or fundraising source.",
+                "quickbooks": "Maybe",
+                "giveLively": "Yes",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Salesforce should own fundraising attribution; accounting may only need summarized categories."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Opportunity",
+                "field": "Gift Designation / Fund / Restriction",
+                "description": "Identifies whether a gift is unrestricted or restricted to a program, campaign, or purpose.",
+                "quickbooks": "Yes",
+                "giveLively": "Maybe",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce / Finance",
+                "priority": "Core",
+                "notes": "Needs strong alignment with accounting classes, funds, or revenue categories."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Opportunity",
+                "field": "Revenue Category / Accounting Code",
+                "description": "Maps gifts to accounting categories such as individual contribution, event, sponsorship, or grant.",
+                "quickbooks": "Yes",
+                "giveLively": "Maybe",
+                "mailchimp": "No",
+                "sourceOfTruth": "Finance",
+                "priority": "Core",
+                "notes": "Should align with chart of accounts or finance reporting structure."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Opportunity",
+                "field": "Tax-Deductible Amount",
+                "description": "Tracks deductible portion when benefits or goods/services are involved.",
+                "quickbooks": "Maybe",
+                "giveLively": "Maybe",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce / Finance",
+                "priority": "Phase 2",
+                "notes": "Important for events, sponsorships, or ticketed benefits."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Opportunity",
+                "field": "Acknowledgment Status",
+                "description": "Tracks whether the gift has been acknowledged or receipted.",
+                "quickbooks": "Maybe",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Salesforce should own donor stewardship, even if receipts are generated elsewhere."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift / Opportunity",
+                "field": "Acknowledgment Date",
+                "description": "Records when donor was thanked or receipted.",
+                "quickbooks": "Maybe",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Critical for timely follow-up and stewardship reporting."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Recurring Donation / Commitment",
+                "field": "Recurring Donation Status",
+                "description": "Tracks active, paused, cancelled, failed, or completed recurring giving.",
+                "quickbooks": "Maybe",
+                "giveLively": "Yes",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce / Giving Platform",
+                "priority": "Core",
+                "notes": "Critical if Give Lively or another platform manages recurring gifts."
+        },
+        {
+                "category": "Gift / Transaction",
+                "object": "Gift Commitment / Pledge",
+                "field": "Pledge / Commitment Amount",
+                "description": "Tracks donor promise before payment is fully received.",
+                "quickbooks": "Maybe",
+                "giveLively": "Maybe",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Phase 2",
+                "notes": "Important if individual giving includes pledges."
+        },
+        {
+                "category": "Marketing / Engagement",
+                "object": "Campaign / Contact",
+                "field": "Mailchimp Audience / List",
+                "description": "Identifies which Mailchimp audience the donor belongs to.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "Yes",
+                "sourceOfTruth": "Mailchimp",
+                "priority": "Core",
+                "notes": "Useful if Mailchimp remains the marketing platform."
+        },
+        {
+                "category": "Marketing / Engagement",
+                "object": "Contact / Campaign Member",
+                "field": "Mailchimp Tags / Segments",
+                "description": "Supports targeted communications based on donor interests or engagement.",
+                "quickbooks": "No",
+                "giveLively": "Maybe",
+                "mailchimp": "Yes",
+                "sourceOfTruth": "Mailchimp / Salesforce",
+                "priority": "Core",
+                "notes": "Could be driven by Salesforce fields such as interest area or donor status."
+        },
+        {
+                "category": "Marketing / Engagement",
+                "object": "Contact",
+                "field": "Last Email Open / Click Date",
+                "description": "Captures marketing engagement signals.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "Yes",
+                "sourceOfTruth": "Mailchimp",
+                "priority": "Phase 2",
+                "notes": "Useful for donor engagement scoring but should not be over-weighted."
+        },
+        {
+                "category": "Marketing / Engagement",
+                "object": "Campaign Member / Event",
+                "field": "Event Attendance",
+                "description": "Links donor to events attended or registered for.",
+                "quickbooks": "No",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Important connection across giving, events, and marketing."
+        },
+        {
+                "category": "Marketing / Engagement",
+                "object": "Campaign / Gift",
+                "field": "Event Source",
+                "description": "Identifies whether gift or relationship originated from an event.",
+                "quickbooks": "Maybe",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Can help analyze event-to-donor conversion."
+        },
+        {
+                "category": "Marketing / Engagement",
+                "object": "Campaign / Gift",
+                "field": "Give Lively Campaign / Event Name",
+                "description": "Connects giving platform campaign or event to Salesforce campaign.",
+                "quickbooks": "No",
+                "giveLively": "Yes",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Give Lively / Salesforce",
+                "priority": "Core",
+                "notes": "Important if Give Lively campaigns/events are used."
+        },
+        {
+                "category": "Marketing / Engagement",
+                "object": "Contact",
+                "field": "Marketing Source / Acquisition Source",
+                "description": "Tracks how the donor first entered the relationship.",
+                "quickbooks": "No",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Could include event, board referral, website, campaign, direct mail, etc."
+        },
+        {
+                "category": "Marketing / Engagement",
+                "object": "Contact",
+                "field": "Volunteer Interest",
+                "description": "Tracks whether donor is also interested in volunteering or other engagement.",
+                "quickbooks": "No",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Phase 2",
+                "notes": "Supports whole-person constituent engagement."
+        },
+        {
+                "category": "Internal Coordination",
+                "object": "Contact / Task",
+                "field": "Follow-Up Owner",
+                "description": "Identifies who is responsible for a specific donor follow-up.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Can be managed through tasks rather than a static field."
+        },
+        {
+                "category": "Internal Coordination",
+                "object": "Task / Activity",
+                "field": "Task Status",
+                "description": "Tracks whether follow-up is not started, in progress, completed, or waiting.",
+                "quickbooks": "No",
+                "giveLively": "No",
+                "mailchimp": "No",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Helps manage team accountability."
+        },
+        {
+                "category": "Internal Coordination",
+                "object": "Contact / Gift",
+                "field": "Data Quality / Duplicate Review Needed",
+                "description": "Flags records that may be incomplete, duplicated, or mismatched across systems.",
+                "quickbooks": "Maybe",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Core",
+                "notes": "Useful during migration and early process buildout."
+        },
+        {
+                "category": "Internal Coordination",
+                "object": "Contact / Gift",
+                "field": "Last Updated By / Source",
+                "description": "Identifies whether the latest update came from staff, QuickBooks, Give Lively, Mailchimp, or manual import.",
+                "quickbooks": "Maybe",
+                "giveLively": "Maybe",
+                "mailchimp": "Maybe",
+                "sourceOfTruth": "Salesforce",
+                "priority": "Phase 2",
+                "notes": "Useful for troubleshooting and governance."
+        }
+];
+
+    const integrationData = [
+        {
+                "system": "Salesforce",
+                "role": "Donor development and relationship system",
+                "owns": "Donor profile, household, relationship owner, donor stage, tasks, campaigns, interest areas, gifts, acknowledgments",
+                "shares": "Finance IDs, gift transactions, campaign attribution, marketing segments",
+                "caution": "Do not overbuild before agreeing on the donor lifecycle and staff process."
+        },
+        {
+                "system": "QuickBooks",
+                "role": "Accounting and reconciliation source of truth",
+                "owns": "Customer/donor accounting record, transaction/payment, deposit, revenue account/class/fund",
+                "shares": "Customer ID, transaction ID, amount, date, payment method, fund/restriction, deposit info",
+                "caution": "Avoid using QuickBooks as the donor CRM; keep relationship strategy in Salesforce."
+        },
+        {
+                "system": "Give Lively or Giving Platform",
+                "role": "Online giving and payment capture",
+                "owns": "Online donor/submission data, donation transaction ID, campaign/event page, recurring donation status, fee/net deposit data",
+                "shares": "Donor contact info, transaction data, campaign/event, recurring giving, processing fees",
+                "caution": "Platform choice may change; avoid making Salesforce dependent on Give Lively-only fields unless needed."
+        },
+        {
+                "system": "Mailchimp",
+                "role": "Marketing communications and engagement",
+                "owns": "Audience/list membership, subscription status, tags/segments, email engagement",
+                "shares": "Email opt-in, audience/list, tags, opens/clicks, unsubscribe status",
+                "caution": "Unsubscribe/consent logic must be handled carefully; do not overwrite donor preferences accidentally."
+        }
+];
+
+    const searchInput = document.getElementById("search");
+    const categoryFilter = document.getElementById("category-filter");
+    const priorityFilter = document.getElementById("priority-filter");
+    const qbFilter = document.getElementById("qb-filter");
+    const glFilter = document.getElementById("gl-filter");
+    const mcFilter = document.getElementById("mc-filter");
+    const resetButton = document.getElementById("reset");
+    const tableBody = document.getElementById("field-table");
+    const resultCount = document.getElementById("result-count");
+    const integrationCards = document.getElementById("integration-cards");
+
+    function uniqueValues(key) {
+      return ["All", ...Array.from(new Set(fieldData.map(item => item[key]).filter(Boolean))).sort()];
+    }
+
+    function fillSelect(select, values, prefix = "") {
+      select.innerHTML = values.map(value => {
+        const label = prefix && value !== "All" ? `${prefix}: ${value}` : value === "All" && prefix ? `${prefix}: All` : value;
+        return `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`;
+      }).join("");
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function tagClass(value) {
+      if (value === "Yes") return "tag yes";
+      if (value === "Maybe") return "tag maybe";
+      if (value === "No") return "tag no";
+      return "tag soft";
+    }
+
+    function renderTable() {
+      const query = searchInput.value.trim().toLowerCase();
+      const category = categoryFilter.value;
+      const priority = priorityFilter.value;
+      const qb = qbFilter.value;
+      const gl = glFilter.value;
+      const mc = mcFilter.value;
+
+      const filtered = fieldData.filter(item => {
+        const matchesQuery = !query || Object.values(item).join(" ").toLowerCase().includes(query);
+        const matchesCategory = category === "All" || item.category === category;
+        const matchesPriority = priority === "All" || item.priority === priority;
+        const matchesQb = qb === "All" || item.quickbooks === qb;
+        const matchesGl = gl === "All" || item.giveLively === gl;
+        const matchesMc = mc === "All" || item.mailchimp === mc;
+        return matchesQuery && matchesCategory && matchesPriority && matchesQb && matchesGl && matchesMc;
+      });
+
+      tableBody.innerHTML = filtered.map(item => `
+        <tr>
+          <td><div class="field-name">${escapeHtml(item.field)}</div></td>
+          <td><span class="tag">${escapeHtml(item.category)}</span></td>
+          <td>${escapeHtml(item.object)}</td>
+          <td>${escapeHtml(item.description)}</td>
+          <td><span class="${tagClass(item.quickbooks)}">${escapeHtml(item.quickbooks)}</span></td>
+          <td><span class="${tagClass(item.giveLively)}">${escapeHtml(item.giveLively)}</span></td>
+          <td><span class="${tagClass(item.mailchimp)}">${escapeHtml(item.mailchimp)}</span></td>
+          <td>${escapeHtml(item.sourceOfTruth)}</td>
+          <td><span class="tag soft">${escapeHtml(item.priority)}</span></td>
+          <td><div class="small">${escapeHtml(item.notes)}</div></td>
+        </tr>
+      `).join("");
+
+      if (filtered.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="10">No fields match the current filters.</td></tr>`;
+      }
+
+      resultCount.innerHTML = `Showing <strong>${filtered.length}</strong> of ${fieldData.length} fields`;
+    }
+
+    function renderIntegrations() {
+      integrationCards.innerHTML = integrationData.map(item => `
+        <div class="card">
+          <h3>${escapeHtml(item.system)}</h3>
+          <p><strong>Recommended role:</strong> ${escapeHtml(item.role)}</p>
+          <p><strong>Should own:</strong> ${escapeHtml(item.owns)}</p>
+          <p><strong>May share with Salesforce:</strong> ${escapeHtml(item.shares)}</p>
+          <p><strong>Caution:</strong> ${escapeHtml(item.caution)}</p>
+        </div>
+      `).join("");
+    }
+
+    fillSelect(categoryFilter, uniqueValues("category"), "Category");
+    fillSelect(priorityFilter, ["All", "Core", "Phase 2", "Phase 3"], "Priority");
+    fillSelect(qbFilter, ["All", "Yes", "Maybe", "No"], "QB");
+    fillSelect(glFilter, ["All", "Yes", "Maybe", "No"], "Give Lively");
+    fillSelect(mcFilter, ["All", "Yes", "Maybe", "No"], "Mailchimp");
+
+    [searchInput, categoryFilter, priorityFilter, qbFilter, glFilter, mcFilter].forEach(element => {
+      element.addEventListener("input", renderTable);
+      element.addEventListener("change", renderTable);
+    });
+
+    resetButton.addEventListener("click", () => {
+      searchInput.value = "";
+      categoryFilter.value = "All";
+      priorityFilter.value = "All";
+      qbFilter.value = "All";
+      glFilter.value = "All";
+      mcFilter.value = "All";
+      renderTable();
+    });
+
+    renderTable();
+    renderIntegrations();
+  </script>
+</body>
+</html>
